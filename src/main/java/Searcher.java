@@ -45,7 +45,6 @@ public class Searcher {
                 }
             }
         }
-
         return null;
     }
 
