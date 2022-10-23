@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.*;
 
 public class Help {
     LinkedList<Integer> state;

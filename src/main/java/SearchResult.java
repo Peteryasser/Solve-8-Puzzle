@@ -17,6 +17,11 @@ public class SearchResult {
         this.explored = explored;
         this.parentTree = parentTree;
         this.time = time;
+    }
+    SearchResult(HashSet<Integer> explored , HashMap<Integer,Integer> parentTree , long time  , int maxDepth){
+        this.explored = explored;
+        this.parentTree = parentTree;
+        this.time = time;
         this.maxDepth = maxDepth;
     }
 
