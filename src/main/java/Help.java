@@ -26,9 +26,26 @@ public class Help {
         return result;
     }
 
+    public static Integer toInteger(Integer[][] stateMatrix){
+        Integer resultInt = 0;
+        for (int i = 0; i < 9; i++) {
+            resultInt += stateMatrix[i/3][i%3] * (int) Math.pow(10 ,8-i );
+        }
+        return resultInt;
+    }
+
+    public static Integer[][] toMatrix(Integer stateInt){
+        Integer[][] resultMat = new Integer[3][3];
+        for (int i = 0; i < 9; i++) {
+            resultMat[2 - i/3][2- i%3] = stateInt%10;
+            stateInt /= 10;
+        }
+        return resultMat;
+    }
+
     public Help(Integer state){
         this.state=toLinkedList(state);
-        this.indexOfZero=this.state.indexOf(9);
+        this.indexOfZero=this.state.indexOf(0);
     }
 
     private boolean canMoveUp(){
@@ -84,7 +101,22 @@ public class Help {
 
     private LinkedList<Integer> swapWith0(LinkedList<Integer>newState,int index){
         newState.set(indexOfZero,this.state.get(index));
-        newState.set(index,9);
+        newState.set(index,0);
         return newState;
     }
+
+    public static void printState(Integer[][] state){
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                System.out.print(state[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+    public static void printState(Integer state){
+        Integer[][] matrix = toMatrix(state);
+        printState(matrix);
+    }
+
+
 }
