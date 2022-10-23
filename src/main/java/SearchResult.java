@@ -7,18 +7,18 @@ import org.json.*;
 
 public class SearchResult {
 
-    HashSet<Integer> explored;
+    HashMap<Integer, Integer> explored;
     HashMap<Integer, Integer> parentTree;
     int maxDepth;
     long time;
     int goal = 12345678;
 
-    SearchResult(HashSet<Integer> explored , HashMap<Integer,Integer> parentTree , long time ){
+    SearchResult(HashMap<Integer, Integer> explored , HashMap<Integer,Integer> parentTree , long time ){
         this.explored = explored;
         this.parentTree = parentTree;
         this.time = time;
     }
-    SearchResult(HashSet<Integer> explored , HashMap<Integer,Integer> parentTree , long time  , int maxDepth){
+    SearchResult(HashMap<Integer, Integer> explored , HashMap<Integer,Integer> parentTree , long time  , int maxDepth){
         this.explored = explored;
         this.parentTree = parentTree;
         this.time = time;
@@ -49,6 +49,7 @@ public class SearchResult {
             System.out.println("*******************");
         }
             System.out.println("cost of path = " + (path.size()-1) );
+            System.out.println("max depth = " + this.maxDepth );
             System.out.println("num of nodes expaded = " + this.explored.size());
     }
 
