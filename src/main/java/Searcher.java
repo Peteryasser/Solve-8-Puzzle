@@ -3,8 +3,6 @@ import java.util.*;
 public class Searcher {
 
 
-
-
     public static Integer store(Integer[][] stateMatrix){
         Integer resultInt = 0;
         for (int i = 0; i < 9; i++) {
@@ -21,9 +19,6 @@ public class Searcher {
         }
         return resultMat;
     }
-
-
-
 
     public SearchResult DFS(Integer initialState , Integer goalState){
         Stack<Integer> frontier=new Stack<>();
@@ -48,20 +43,23 @@ public class Searcher {
         return null;
     }
 
-
     public SearchResult BFS(Integer initialState , Integer goalState){
         Queue<Integer> frontier=new LinkedList<>();
         HashSet<Integer> explored =new HashSet<>();
         HashMap<Integer,Integer> parentTree=new HashMap<>();
         SearchResult result=new SearchResult(explored,parentTree);
         int state;
+
+
         frontier.add(initialState);
         while (!frontier.isEmpty()){
             state=frontier.remove();
             explored.add(state);
             if(state==goalState)
                 return result;
+
             Help help=new Help(state);
+
             for (Integer neighbor:help.makeNeighbors()){
                 if ((!frontier.contains(neighbor))&&(!explored.contains(neighbor))){
                     frontier.add(neighbor);
@@ -73,11 +71,36 @@ public class Searcher {
         return null;
     }
 
+    public SearchResult AstarSearch(Integer initialState , Integer goalState , String distanceFunction){
+        PriorityQueue<Integer> frontier=new PriorityQueue<>();
+        //
+        HashSet<Integer> explored =new HashSet<>();
+        HashMap<Integer,Integer> parentTree=new HashMap<>();
+        SearchResult result=new SearchResult(explored,parentTree);
+        int state;
 
-    public SearchResult AstarSearch(Integer initialState , Integer goalState){
 
+        frontier.add(initialState);
+        while (!frontier.isEmpty()){
+            state=frontier.remove();
+            explored.add(state);
+            if(state==goalState)
+                return result;
+
+            Help help=new Help(state);
+
+            for (Integer neighbor:help.makeNeighbors()){
+                if ((!frontier.contains(neighbor))&&(!explored.contains(neighbor))){
+                    frontier.add(neighbor);
+                    parentTree.put(neighbor,state);
+                }
+//                else if()
+            }
+        }
 
         return null;
+
+
     }
 
 }

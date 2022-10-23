@@ -12,6 +12,12 @@ public class Help {
         }
         return result;
     }
+
+    /*
+        102
+        453
+        678
+     */
     public static Integer toInteger(LinkedList<Integer> stateList){
         Integer result=0;
         for (int i = 0; i < 9; i++) {
@@ -19,17 +25,22 @@ public class Help {
         }
         return result;
     }
+
     public Help(Integer state){
         this.state=toLinkedList(state);
         this.indexOfZero=this.state.indexOf(9);
     }
+
     private boolean canMoveUp(){
         return indexOfZero>2;
     }
+
     private LinkedList<Integer> upState(){
         LinkedList<Integer> newState= (LinkedList<Integer>) this.state.clone();
         return swapWith0(newState,indexOfZero-3);
     }
+
+
     private boolean canMoveDown(){
         return indexOfZero<6;
     }
@@ -37,6 +48,8 @@ public class Help {
         LinkedList<Integer> newState=(LinkedList<Integer>) this.state.clone();
         return swapWith0(newState,indexOfZero+3);
     }
+
+
     private boolean canMoveRight(){
         return !(indexOfZero%3==2);
     }
@@ -44,6 +57,8 @@ public class Help {
         LinkedList<Integer> newState=(LinkedList<Integer>) this.state.clone();
         return swapWith0(newState,indexOfZero+1);
     }
+
+
     private boolean canMoveLift(){
         return !(indexOfZero%3==0);
     }
@@ -51,6 +66,8 @@ public class Help {
         LinkedList<Integer> newState=(LinkedList<Integer>) this.state.clone();
         return swapWith0(newState,indexOfZero-1);
     }
+
+
     public LinkedList<Integer> makeNeighbors(){
         LinkedList<Integer> neighbors=new LinkedList<>();
         if(canMoveUp())
@@ -64,6 +81,7 @@ public class Help {
 
         return neighbors;
     }
+
     private LinkedList<Integer> swapWith0(LinkedList<Integer>newState,int index){
         newState.set(indexOfZero,this.state.get(index));
         newState.set(index,9);
