@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -43,14 +45,25 @@ public class SearchResult {
     }
 
     void print(){
-            LinkedList<Integer> path = getGoalPath();
+        LinkedList<Integer> path = getGoalPath();
         for (Integer state : path) {
             Help.printState(state);
             System.out.println("*******************");
         }
-            System.out.println("cost of path = " + (path.size()-1) );
-            System.out.println("max depth = " + this.maxDepth );
-            System.out.println("num of nodes expaded = " + this.explored.size());
+        System.out.println("cost of path = " + (path.size()-1) );
+        System.out.println("max depth = " + this.maxDepth );
+        System.out.println("num of nodes expaded = " + this.explored.size());
+    }
+    void toTxtFile(){
+        try {
+            FileWriter myWriter = new FileWriter("filename.txt");
+            myWriter.write(this.time+"\n"+this.maxDepth+'\n'+this.explored.size()+'\n'+getGoalPath());
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
 }
