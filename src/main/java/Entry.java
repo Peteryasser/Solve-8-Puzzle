@@ -1,15 +1,15 @@
 public class Entry implements Comparable<Entry> {
     private Integer key;
-    private int value;
+    private float value;
 
-    public Entry(Integer key, int value) {
+    public Entry(Integer key, float value) {
         this.key = key;
         this.value = value;
     }
     Integer getKey (){//i
         return this.key;
     }
-    int getValue(){
+    float getValue(){
         return this.value;
     }
     @Override

@@ -29,10 +29,6 @@ public class Searcher {
                 }
             }
 
-//            int parent = parentTree.get(state);
-//            int currentCost = explored.get(parent) +1;
-//
-//            explored.put(state , currentCost );
 
             if(state==goalState) {
                 result = new SearchResult(explored, parentTree, System.currentTimeMillis() - startTime , maxDepth);
@@ -102,8 +98,8 @@ public class Searcher {
         HashMap<Integer, Integer> explored =new HashMap<>();
         HashMap<Integer,Integer> parentTree=new HashMap<>();
         int state;
-        int initialCost;
-        if(distanceFunction.equals("Manhattan")){
+        float initialCost;
+        if(distanceFunction.equals("M")){
             initialCost = Help.ManhattanDistance(initialState);
         }
         else{
@@ -112,16 +108,16 @@ public class Searcher {
         Entry entry0 = new Entry(initialState,initialCost);
         frontier.add(entry0);
         while (!frontier.isEmpty()){
-            state=frontier.remove().getValue();
+            state=frontier.remove().getKey();
             if(parentTree.isEmpty()){
-                explored.put(state,0);
+                explored.put(state,  0);
             }
             else{
                 int parent = parentTree.get(state);
-                int currentCost = explored.get(parent) +1;
-                explored.put(state , currentCost );
-                if (currentCost>maxDepth){
-                    maxDepth = currentCost;
+                int currentBackCost = explored.get(parent) +1;
+                explored.put(state , currentBackCost );
+                if (currentBackCost>maxDepth){
+                    maxDepth = currentBackCost;
                 }
             }
             if(state==goalState) {
@@ -132,14 +128,14 @@ public class Searcher {
             for (Integer neighbor:help.makeNeighbors()){
                 if (!explored.containsKey(neighbor)){
                     int CostBack = explored.get(state)+1;
-                    int CostForward;
-                    if(distanceFunction.equals("Manhattan")) {
+                    float CostForward;
+                    if(distanceFunction.equals("M")) {
                         CostForward = Help.ManhattanDistance(neighbor);
                     }
                     else {
                         CostForward = Help.EuclideanDistance(neighbor);
                     }
-                    int totalCost = CostBack + CostForward;
+                    float totalCost = CostBack + CostForward;
                     Entry entry = new Entry(neighbor,totalCost);
                     frontier.add(entry);
                     parentTree.put(neighbor,state);
