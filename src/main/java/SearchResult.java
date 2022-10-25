@@ -27,13 +27,14 @@ public class SearchResult {
         this.maxDepth = maxDepth;
     }
 
-    void writeJson(){
-
-    }
 
     LinkedList<Integer> getGoalPath(){
         int state=this.goal;
         LinkedList<Integer> path = new LinkedList<>();
+
+        if (!this.parentTree.containsKey(state)){
+            return path;
+        }
 
         path.addFirst(state);
         while (this.parentTree.containsKey(state)){
@@ -50,13 +51,15 @@ public class SearchResult {
             Help.printState(state);
             System.out.println("*******************");
         }
+        System.out.println("time = " + this.time + "ms");
         System.out.println("cost of path = " + (path.size()-1) );
         System.out.println("max depth = " + this.maxDepth );
         System.out.println("num of nodes expaded = " + this.explored.size());
     }
+
     void toTxtFile(){
         try {
-            FileWriter myWriter = new FileWriter("filename.txt");
+            FileWriter myWriter = new FileWriter("results.txt");
             myWriter.write(this.time+"\n"+this.maxDepth+'\n'+this.explored.size()+'\n'+getGoalPath());
             myWriter.close();
             System.out.println("Successfully wrote to the file.");

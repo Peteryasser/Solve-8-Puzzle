@@ -43,6 +43,68 @@ public class Help {
         }
         return resultMat;
     }
+    public Help(Integer state){
+        this.state=toLinkedList(state);
+        this.indexOfZero=this.state.indexOf(0);
+    }
+
+    private boolean canMoveUp(){
+        return indexOfZero>2;
+    }
+
+    private LinkedList<Integer> upState(){
+        LinkedList<Integer> newState= (LinkedList<Integer>) this.state.clone();
+        return swapWith0(newState,indexOfZero-3);
+    }
+
+
+    private boolean canMoveDown(){
+        return indexOfZero<6;
+    }
+
+    private LinkedList<Integer> downState(){
+        LinkedList<Integer> newState=(LinkedList<Integer>) this.state.clone();
+        return swapWith0(newState,indexOfZero+3);
+    }
+
+    private boolean canMoveRight(){
+        return !(indexOfZero%3==2);
+    }
+
+    private LinkedList<Integer> rightState(){
+        LinkedList<Integer> newState=(LinkedList<Integer>) this.state.clone();
+        return swapWith0(newState,indexOfZero+1);
+    }
+
+    private boolean canMoveLift(){
+        return !(indexOfZero%3==0);
+    }
+
+    private LinkedList<Integer> liftState(){
+        LinkedList<Integer> newState=(LinkedList<Integer>) this.state.clone();
+        return swapWith0(newState,indexOfZero-1);
+    }
+
+    public LinkedList<Integer> makeNeighbors(){
+        LinkedList<Integer> neighbors=new LinkedList<>();
+        if(canMoveUp())
+            neighbors.add(toInteger(upState()));
+        if(canMoveDown())
+            neighbors.add(toInteger(downState()));
+        if(canMoveRight())
+            neighbors.add(toInteger(rightState()));
+        if(canMoveLift())
+            neighbors.add(toInteger(liftState()));
+
+        return neighbors;
+    }
+
+    private LinkedList<Integer> swapWith0(LinkedList<Integer>newState,int index){
+        newState.set(indexOfZero,this.state.get(index));
+        newState.set(index,0);
+        return newState;
+    }
+
     public static float ManhattanDistance(Integer stateInt){
         Integer[][] goal = {{1,1,0},{2,2,0},{3,0,1},{4,1,1},{5,2,1},{6,0,2},{7,1,2},{8,2,2}};
         int result = 0;
@@ -79,68 +141,6 @@ public class Help {
             }
         }
         return result;
-    }
-
-    public Help(Integer state){
-        this.state=toLinkedList(state);
-        this.indexOfZero=this.state.indexOf(0);
-    }
-
-    private boolean canMoveUp(){
-        return indexOfZero>2;
-    }
-
-    private LinkedList<Integer> upState(){
-        LinkedList<Integer> newState= (LinkedList<Integer>) this.state.clone();
-        return swapWith0(newState,indexOfZero-3);
-    }
-
-
-    private boolean canMoveDown(){
-        return indexOfZero<6;
-    }
-    private LinkedList<Integer> downState(){
-        LinkedList<Integer> newState=(LinkedList<Integer>) this.state.clone();
-        return swapWith0(newState,indexOfZero+3);
-    }
-
-
-    private boolean canMoveRight(){
-        return !(indexOfZero%3==2);
-    }
-    private LinkedList<Integer> rightState(){
-        LinkedList<Integer> newState=(LinkedList<Integer>) this.state.clone();
-        return swapWith0(newState,indexOfZero+1);
-    }
-
-
-    private boolean canMoveLift(){
-        return !(indexOfZero%3==0);
-    }
-    private LinkedList<Integer> liftState(){
-        LinkedList<Integer> newState=(LinkedList<Integer>) this.state.clone();
-        return swapWith0(newState,indexOfZero-1);
-    }
-
-
-    public LinkedList<Integer> makeNeighbors(){
-        LinkedList<Integer> neighbors=new LinkedList<>();
-        if(canMoveUp())
-            neighbors.add(toInteger(upState()));
-        if(canMoveDown())
-            neighbors.add(toInteger(downState()));
-        if(canMoveRight())
-            neighbors.add(toInteger(rightState()));
-        if(canMoveLift())
-            neighbors.add(toInteger(liftState()));
-
-        return neighbors;
-    }
-
-    private LinkedList<Integer> swapWith0(LinkedList<Integer>newState,int index){
-        newState.set(indexOfZero,this.state.get(index));
-        newState.set(index,0);
-        return newState;
     }
 
     public static void printState(Integer[][] state){

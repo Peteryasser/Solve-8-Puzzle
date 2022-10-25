@@ -42,7 +42,8 @@ public class Searcher {
                 }
             }
         }
-        return null;
+        result = new SearchResult(explored , parentTree , System.currentTimeMillis() - startTime , maxDepth);
+        return result ;
     }
 
     public SearchResult BFS(Integer initialState , Integer goalState){
@@ -87,10 +88,11 @@ public class Searcher {
         }
 
 
-        return null;
+        result = new SearchResult(explored , parentTree , System.currentTimeMillis() - startTime , maxDepth);
+        return result ;
     }
 
-    public SearchResult AstarSearch(Integer initialState , Integer goalState , String distanceFunction){
+    public SearchResult AstarSearch(Integer initialState , Integer goalState , DistanceFunction distanceFunction){
         long startTime = System.currentTimeMillis();
         SearchResult result = null;
         int maxDepth = 0;
@@ -99,16 +101,20 @@ public class Searcher {
         HashMap<Integer,Integer> parentTree=new HashMap<>();
         int state;
         float initialCost;
-        if(distanceFunction.equals("M")){
-            initialCost = Help.ManhattanDistance(initialState);
-        }
-        else{
-            initialCost = Help.EuclideanDistance(initialState);
-        }
+        initialCost = distanceFunction.distance(initialState);
+//        if(distanceFunction.equals("M")){
+//            initialCost = Help.ManhattanDistance(initialState);
+//        }
+//        else{
+//            initialCost = Help.EuclideanDistance(initialState);
+//        }
         Entry entry0 = new Entry(initialState,initialCost);
         frontier.add(entry0);
         while (!frontier.isEmpty()){
             state=frontier.remove().getKey();
+            if (explored.containsKey(state)){
+                continue;
+            }
             if(parentTree.isEmpty()){
                 explored.put(state,  0);
             }
@@ -127,15 +133,17 @@ public class Searcher {
             Help help=new Help(state);
             for (Integer neighbor:help.makeNeighbors()){
                 if (!explored.containsKey(neighbor)){
-                    int CostBack = explored.get(state)+1;
-                    float CostForward;
-                    if(distanceFunction.equals("M")) {
-                        CostForward = Help.ManhattanDistance(neighbor);
-                    }
-                    else {
-                        CostForward = Help.EuclideanDistance(neighbor);
-                    }
-                    float totalCost = CostBack + CostForward;
+                    int backCost = explored.get(state)+1;
+                    float forwardCost;
+                    forwardCost = distanceFunction.distance(neighbor);
+//                    if(distanceFunction.equals("M")) {
+//                        forwardCost = Help.ManhattanDistance(neighbor);
+//                    }
+//                    else {
+//                        forwardCost = Help.EuclideanDistance(neighbor);
+//                    }
+                    
+                    float totalCost = backCost + forwardCost;
                     Entry entry = new Entry(neighbor,totalCost);
                     frontier.add(entry);
                     parentTree.put(neighbor,state);
@@ -144,7 +152,7 @@ public class Searcher {
 
         }
 
-        return null;
+        return new SearchResult(explored,parentTree , System.currentTimeMillis()- startTime , maxDepth );
     }
 
 }
